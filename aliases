@@ -1,3 +1,40 @@
+alias ep='date +%s'
+alias ps='ps aux'
+alias psme="ps | grep $USER"
+alias rm='rm -i'
+alias pwc='perlwebconsole &'
+alias rgs='gem server --daemon'
+
+# editor (bbedit)
+alias bb='bbedit'
+alias sp='bbedit --scratchpad ""'
+
+# git
+alias gs='git stash'
+alias gt='git st'
+alias gsl='git stash list'
+alias gsp='git stash pop'
+alias gl='git lg'
+alias ga='git add '
+alias gb='git branch '
+alias gc='git commit'
+alias gd='git diff'
+alias go='git checkout '
+alias gx='gitx --all'
+alias gh='git hist '
+
+# MySQL
+alias dbup='sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+alias dbdown='sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+
+# code env stuff
+alias cb='cd $CODE'
+alias bin='cd $CODE/bin'
+alias cgem='cd $CODE/gems'
+alias svc='cd $CODE/services'
+
+# DO NOT EDIT BELOW THIS LINE
+
 # Unix
 alias tlf="tail -f"
 alias ln='ln -v'
