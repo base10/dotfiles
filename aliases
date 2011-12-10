@@ -3,16 +3,40 @@ alias tlf="tail -f"
 alias ln='ln -v'
 alias mkdir='mkdir -p'
 alias ...='../..'
-alias l='ls'
-alias ll='ls -al'
+alias l='ls -1'
+alias ll='ls -alFh | less'
 alias lh='ls -Alh'
 alias -g G='| grep'
 alias -g M='| less'
 alias -g L='| wc -l'
 alias -g ONE="| awk '{ print \$1}'"
 
+alias ep='date +%s'
+alias ps='ps aux'
+alias psme="ps | grep $USER"
+alias rm='rm -i'
+alias pwc='perlwebconsole &'
+alias rgs='gem server --daemon'
+
+# editor (bbedit)
+alias bb='bbedit'
+alias sp='bbedit --scratchpad ""'
+
 # git
 alias g="git"
+alias gs='git stash'
+alias gt='git st'
+alias gsl='git stash list'
+alias gsp='git stash pop'
+alias gl='git lg'
+alias ga='git add '
+alias gb='git branch '
+alias gc='git commit'
+alias gd='git diff'
+alias go='git checkout '
+alias gx='gitx --all'
+alias gh='git hist '
+
 alias gci="git pull --rebase && rake && git push"
 
 # Ruby
@@ -30,24 +54,36 @@ alias gi="gem install"
 alias giv="gem install -v"
 
 # Rails
+alias r='rails'
 alias migrate="bundle exec db:migrate db:test:prepare"
 alias remigrate="bundle exec db:migrate db:migrate:redo db:schema:dump db:test:prepare"
 alias remongrate="bundle exec mongoid:migrate mongoid:migrate:redo"
 
-# Heroku staging
-alias staging='heroku run console --remote staging'
-alias staging-process='watch heroku ps --remote staging'
-alias staging-releases='heroku releases --remote staging'
-alias staging-tail='heroku logs --tail --remote staging'
+# MySQL
+alias dbup='sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+alias dbdown='sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
 
-# Heroku production
-alias production='heroku run console --remote production'
-alias production-process='watch heroku ps --remote production'
-alias production-releases='heroku releases --remote production'
-alias production-tail='heroku logs --tail --remote production'
+# code env stuff
+alias cb='cd $CODE'
+alias bin='cd $CODE/bin'
+alias cgem='cd $CODE/gems'
+alias svc='cd $CODE/services'
 
-# Heroku databases
-alias db-pull-staging='heroku db:pull --remote staging --confirm `basename $PWD`-staging'
-alias db-pull-production='heroku db:pull --remote production --confirm `basename $PWD`-production'
-alias db-copy-production-to-staging='heroku pgbackups:restore DATABASE `heroku pgbackups:url --remote production` --remote staging  --confirm `basename $PWD`-staging'
-alias db-backup-production='heroku pgbackups:capture --remote production'
+#
+# # Heroku staging
+# alias staging='heroku run console --remote staging'
+# alias staging-process='watch heroku ps --remote staging'
+# alias staging-releases='heroku releases --remote staging'
+# alias staging-tail='heroku logs --tail --remote staging'
+#
+# # Heroku production
+# alias production='heroku run console --remote production'
+# alias production-process='watch heroku ps --remote production'
+# alias production-releases='heroku releases --remote production'
+# alias production-tail='heroku logs --tail --remote production'
+#
+# # Heroku databases
+# alias db-pull-staging='heroku db:pull --remote staging --confirm `basename $PWD`-staging'
+# alias db-pull-production='heroku db:pull --remote production --confirm `basename $PWD`-production'
+# alias db-copy-production-to-staging='heroku pgbackups:restore DATABASE `heroku pgbackups:url --remote production` --remote staging  --confirm `basename $PWD`-staging'
+# alias db-backup-production='heroku pgbackups:capture --remote production'

@@ -8,8 +8,8 @@ compinit
 # automatically enter directories without cd
 setopt auto_cd
 
-# use vim as an editor
-export EDITOR=vim
+# use BBEdit as an editor
+export EDITOR='bbedit -w'
 
 # aliases
 if [ -e "$HOME/.aliases" ]; then
@@ -55,6 +55,8 @@ export dirstacksize=5
 
 # awesome cd movements from zshkit
 setopt AUTOCD
+
+
 setopt AUTOPUSHD PUSHDMINUS PUSHDSILENT PUSHDTOHOME
 setopt cdablevars
 
@@ -63,3 +65,28 @@ setopt CORRECT CORRECT_ALL
 
 # Enable extended globbing
 setopt EXTENDED_GLOB
+
+# Additional exports to match nathan's historical .bash profile
+##############################################################################
+export CODE=$HOME/code
+export SERVICES=$CODE/services
+export PATH=$PATH:$HOME/bin
+
+export TERM=xterm-256color
+export DB_SOCKET=/usr/local/var/run/mysqld.sock
+export SHORTHOST=`hostname -s`
+
+# Add in the right host info
+if [ -f $HOME/code/env/bashrc_includes/$SHORTHOST.bash ]; then
+    . $HOME/code/env/bashrc_includes/$SHORTHOST.bash
+    # echo "sourced in env vars for $SHORTHOST"
+fi
+
+if [ $SHORTHOST == 'orion' ]; then
+    # Make sure the dev environment disk is mounted
+    $HOME/bin/mount_dev.sh
+fi
+
+# rbenv set-up
+eval "$(rbenv init -)"
+
