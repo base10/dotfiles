@@ -82,7 +82,7 @@ if [ -f $HOME/code/env/bashrc_includes/$SHORTHOST.bash ]; then
     # echo "sourced in env vars for $SHORTHOST"
 fi
 
-if [ $SHORTHOST == 'orion' ]; then
+if [[ $SHORTHOST == 'orion' ]]; then
     # Make sure the dev environment disk is mounted
     $HOME/bin/mount_dev.sh
 fi
