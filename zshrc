@@ -44,11 +44,13 @@ setopt prompt_subst
 # prompt
 export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
 
-# ignore duplicate history entries
-setopt histignoredups
-
-# keep TONS of history
+# keep TONS of history, set other history options
 export HISTSIZE=4096
+export HISTFILE=$HOME/.zsh/.zhistory
+
+setopt histignoredups
+setopt appendhistory
+setopt incappendhistory
 
 # look for ey config in project dirs
 export EYRC=./.eyrc
