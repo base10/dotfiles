@@ -95,7 +95,3 @@ if [[ $SHORTHOST == 'orion' ]]; then
     # Make sure the dev environment disk is mounted
     $HOME/bin/mount_dev.sh
 fi
-
-# rbenv set-up
-eval "$(rbenv init -)"
-
