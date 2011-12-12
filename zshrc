@@ -45,12 +45,15 @@ setopt prompt_subst
 export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
 
 # keep TONS of history, set other history options
-export HISTSIZE=4096
-export HISTFILE=$HOME/.zsh/.zhistory
+HISTSIZE=4096
+SAVEHIST=4096
+HISTFILE=$HOME/.zsh/.zhistory
 
 setopt histignoredups
 setopt appendhistory
 setopt incappendhistory
+setopt sharehistory
+setopt extendedhistory
 
 # look for ey config in project dirs
 export EYRC=./.eyrc
