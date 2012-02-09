@@ -1,3 +1,4 @@
+# Local shortcuts
 alias ep='date +%s'
 alias ps='ps aux'
 alias psme="ps | grep $USER"
