@@ -22,6 +22,11 @@ alias rgs='gem server --daemon'
 alias bb='bbedit'
 alias sp='bbedit --scratchpad ""'
 
+# tmux
+alias tm='tmux'
+alias tmc='tmuxinator content'
+alias ktc='tmux kill-session -t content'
+
 # git
 alias g="git"
 alias gs='git stash'
