@@ -13,6 +13,7 @@ alias sp='bbedit --scratchpad ""'
 # tmux
 alias tm='tmux'
 alias tmc='tmuxinator content'
+alias tms='tmuxinator site'
 alias ktc='tmux kill-session -t content'
 
 # git
@@ -64,6 +65,8 @@ alias b="bundle"
 # Tests and Specs
 alias t="ruby -I test"
 alias cuc="bundle exec cucumber"
+alias mmb="bundle exec middleman build"
+alias mmc="bundle exec middleman clean"
 
 # Rubygems
 alias gi="gem install"
