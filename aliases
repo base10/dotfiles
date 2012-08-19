@@ -25,6 +25,7 @@ alias sp='bbedit --scratchpad ""'
 # tmux
 alias tm='tmux'
 alias tmc='tmuxinator content'
+alias tms='tmuxinator site'
 alias ktc='tmux kill-session -t content'
 
 # git
@@ -53,6 +54,8 @@ alias be="bundle exec"
 alias bake="bundle exec rake"
 alias s="bundle exec rspec"
 alias cuc="bundle exec cucumber"
+alias mmb="bundle exec middleman build"
+alias mmc="bundle exec middleman clean"
 
 # Rubygems
 alias gi="gem install"
@@ -73,6 +76,7 @@ alias cb='cd $CODE'
 alias bin='cd $CODE/bin'
 alias cgem='cd $CODE/gems'
 alias svc='cd $CODE/services'
+alias web='cd /Web/wallscorp.us'
 
 #
 # # Heroku staging
