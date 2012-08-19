@@ -18,6 +18,8 @@ alias rm='rm -i'
 alias pwc='perlwebconsole &'
 alias rgs='gem server --daemon'
 
+alias szp='source ~/.zshrc'
+
 # editor (bbedit)
 alias bb='bbedit'
 alias sp='bbedit --scratchpad ""'
@@ -27,6 +29,7 @@ alias tm='tmux'
 alias tmc='tmuxinator content'
 alias tms='tmuxinator site'
 alias ktc='tmux kill-session -t content'
+alias kts='tmux kill-session -t site'
 
 # git
 alias g="git"
@@ -45,6 +48,12 @@ alias gh='git hist '
 
 alias gci="git pull --rebase && rake && git push"
 
+alias gsvr="git svn rebase"
+alias gsvf="git svn fetch"
+alias gsdc="git svn dcommit"
+alias grbi="git rebase -i"
+alias glo="git log --oneline"
+
 # Ruby
 alias help-strftime='ruby ~/bin/help-strftime.rb'
 
@@ -60,6 +69,7 @@ alias mmc="bundle exec middleman clean"
 # Rubygems
 alias gi="gem install"
 alias giv="gem install -v"
+alias rgs='gem server --daemon'
 
 # Rails
 alias r='bundle exec rails'
@@ -70,10 +80,11 @@ alias remongrate="bundle exec mongoid:migrate mongoid:migrate:redo"
 # MySQL
 alias dbup='sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
 alias dbdown='sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+export DB_SOCKET=/usr/local/var/run/mysqld.sock
 
 # code env stuff
 alias cb='cd $CODE'
-alias bin='cd $CODE/bin'
+alias cbin='cd $CODE/bin'
 alias cgem='cd $CODE/gems'
 alias svc='cd $CODE/services'
 alias web='cd /Web/wallscorp.us'

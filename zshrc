@@ -61,7 +61,6 @@ export dirstacksize=5
 # awesome cd movements from zshkit
 setopt AUTOCD
 
-
 setopt AUTOPUSHD PUSHDMINUS PUSHDSILENT PUSHDTOHOME
 setopt cdablevars
 
@@ -82,12 +81,13 @@ export DB_SOCKET=/usr/local/var/run/mysqld.sock
 export SHORTHOST=`hostname -s`
 
 # Add in the right host info
-if [ -f $HOME/code/env/bashrc_includes/$SHORTHOST.bash ]; then
-    . $HOME/code/env/bashrc_includes/$SHORTHOST.bash
-    # echo "sourced in env vars for $SHORTHOST"
+if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
+    . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
 fi
 
 if [[ $SHORTHOST == 'orion' ]]; then
     # Make sure the dev environment disk is mounted
     $HOME/bin/mount_dev.sh
 fi
+
+export DISPLAY=:0.0
