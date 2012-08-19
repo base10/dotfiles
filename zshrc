@@ -75,7 +75,7 @@ setopt EXTENDED_GLOB
 ##############################################################################
 export CODE=$HOME/code
 export SERVICES=$CODE/services
-export PATH=$PATH:$HOME/bin
+export PATH=$HOME/bin:$HOME/.rbenv/shims:$PATH
 
 export TERM=xterm-256color
 export DB_SOCKET=/usr/local/var/run/mysqld.sock
