@@ -79,6 +79,7 @@ export PATH=$HOME/bin:$HOME/.rbenv/shims:$PATH
 export TERM=xterm-256color
 export DB_SOCKET=/usr/local/var/run/mysqld.sock
 export SHORTHOST=`hostname -s`
+export ANSIBLE_HOSTS=$HOME/code/infrastructure/ansible-playbooks/ansible_hosts
 
 # Add in the right host info
 if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
