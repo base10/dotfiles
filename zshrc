@@ -90,9 +90,4 @@ if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
     . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
 fi
 
-if [[ $SHORTHOST == 'orion' ]]; then
-    # Make sure the dev environment disk is mounted
-    $HOME/bin/mount_dev.sh
-fi
-
 export DISPLAY=:0.0
