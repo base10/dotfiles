@@ -5,10 +5,6 @@
 [core]
   excludesfile = $HOME/code/env/.gitexcludes
 
-[github]
-  user  = base10
-  token = 628b79cfdc21c3006ab98f14a157a6af
-
 [alias]
   co = checkout
   ci = commit
@@ -28,6 +24,8 @@
 
 [status]
   color = auto
+
+# DO NOT EDIT BELOW THIS LINE
 
 [push]
   default = tracking
