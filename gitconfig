@@ -1,35 +1,37 @@
 [user]
 	name = Nathan L. Walls
 	email = nathan@wallscorp.us
-
-[core]
-  excludesfile = $HOME/code/env/.gitexcludes
-
-[github]
-  user  = base10
-  token = 628b79cfdc21c3006ab98f14a157a6af
-
 [alias]
-  co = checkout
-  ci = commit
-  st = status
   br = branch
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   type = cat-file -t
   dump = cat-file -p
-
 [diff]
   color  = auto
   rename = copy
-
 [pager]
   color = true
-
 [status]
   color = auto
+
+# DO NOT EDIT BELOW THIS LINE
 
 [push]
   default = tracking
 [format]
   pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
+[alias]
+  aa = add --all
+  am = commit --amend
+  ap = add --patch
+  ci = commit -v
+  co = checkout
+  create-branch = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
+  delete-branch = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
+  merge-branch = !git checkout master && git merge @{-1} --ff-only
+  rebase-origin = !git fetch origin && git rebase origin/master
+  st = status
+[core]
+  excludesfile = ~/.gitignore
+  autocrlf = input

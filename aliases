@@ -1,16 +1,4 @@
-# Unix
-alias tlf="tail -f"
-alias ln='ln -v'
-alias mkdir='mkdir -p'
-alias ...='../..'
-alias l='ls -1'
-alias ll='ls -Alh | less'
-alias lh='ls -Alh'
-alias -g G='| grep'
-alias -g M='| less'
-alias -g L='| wc -l'
-alias -g ONE="| awk '{ print \$1}'"
-
+# Local shortcuts
 alias ep='date +%s'
 alias ps='ps aux'
 alias psme="ps | grep $USER"
@@ -32,7 +20,6 @@ alias ktc='tmux kill-session -t content'
 alias kts='tmux kill-session -t site'
 
 # git
-alias g="git"
 alias gs='git stash'
 alias gt='git st'
 alias gsl='git stash list'
@@ -45,23 +32,49 @@ alias gd='git diff'
 alias go='git checkout '
 alias gx='gitx --all'
 alias gh='git hist '
-
-alias gci="git pull --rebase && rake && git push"
-
 alias gsvr="git svn rebase"
 alias gsvf="git svn fetch"
 alias gsdc="git svn dcommit"
 alias grbi="git rebase -i"
 alias glo="git log --oneline"
 
+# MySQL
+alias dbup='sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+alias dbdown='sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+
+# code env stuff
+alias cb='cd $CODE'
+alias bin='cd $CODE/bin'
+alias cgem='cd $CODE/gems'
+alias svc='cd $CODE/services'
+
 # Ruby
 alias help-strftime='ruby ~/bin/help-strftime.rb'
 
+# DO NOT EDIT BELOW THIS LINE
+
+# Unix
+alias tlf="tail -f"
+alias ln='ln -v'
+alias mkdir='mkdir -p'
+alias ...='../..'
+alias l='ls'
+alias ll='ls -al'
+alias lh='ls -Alh'
+alias -g G='| grep'
+alias -g M='| less'
+alias -g L='| wc -l'
+alias -g ONE="| awk '{ print \$1}'"
+
+# git
+alias g="git"
+alias gci="git pull --rebase && rake && git push"
+
 # Bundler
 alias b="bundle"
-alias be="bundle exec"
-alias bake="bundle exec rake"
-alias s="bundle exec rspec"
+
+# Tests and Specs
+alias t="ruby -I test"
 alias cuc="bundle exec cucumber"
 alias mmb="bundle exec middleman build"
 alias mmc="bundle exec middleman clean"
