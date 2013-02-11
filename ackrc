@@ -1,3 +1,10 @@
+--ignore-dir=dojo_root
+--ignore-dir=dojo_sdk
+--ignore-dir=mootools
+--ignore-dir=raphael
+
+# DO NOT EDIT BELOW THIS LINE
+
 # Search
 --type-set=coffee=.coffee
 --type-set=cucumber=.feature

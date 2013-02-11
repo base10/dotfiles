@@ -1,3 +1,22 @@
+# Additional exports to match nathan's historical .bash profile
+##############################################################################
+export SHORTHOST=`hostname -s`
+
+# Add in the right host info
+if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
+    . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
+else
+    . $HOME/code/env/zsh_includes/global.zsh
+fi
+
+alias cdcb='cd $CODE;pwd'
+alias cd_bin='cd $CODE/bin'
+alias cd_gem='cd $CODE/gems;pwd'
+alias cd_plg='cd $CODE/plugins;pwd'
+alias cd_svc='cd $SERVICES;pwd'
+
+# DO NOT EDIT BELOW THIS LINE
+
 # load our own completion functions
 fpath=(~/.zsh/completion $fpath)
 
@@ -12,8 +31,8 @@ compinit
 # automatically enter directories without cd
 setopt auto_cd
 
-# use BBEdit as an editor
-export EDITOR='bbedit -w'
+# use vim as an editor
+export EDITOR=vim
 
 # aliases
 if [ -e "$HOME/.aliases" ]; then
@@ -73,21 +92,3 @@ setopt CORRECT CORRECT_ALL
 
 # Enable extended globbing
 setopt EXTENDED_GLOB
-
-# Additional exports to match nathan's historical .bash profile
-##############################################################################
-export CODE=$HOME/code
-export SERVICES=$CODE/services
-export PATH=$HOME/bin:$HOME/.rbenv/shims:$PATH
-
-export TERM=xterm-256color
-export DB_SOCKET=/usr/local/var/run/mysqld.sock
-export SHORTHOST=`hostname -s`
-export ANSIBLE_HOSTS=$HOME/code/infrastructure/ansible-playbooks/ansible_hosts
-
-# Add in the right host info
-if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
-    . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
-fi
-
-export DISPLAY=:0.0

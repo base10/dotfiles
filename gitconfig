@@ -2,11 +2,18 @@
 	name = Nathan L. Walls
 	email = nathan@wallscorp.us
 [alias]
-  br = branch
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
-  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-  type = cat-file -t
-  dump = cat-file -p
+    br = branch
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    ribbon = tag --force _ribbon origin/master
+    catchup = log --patch --reverse --topo-order _ribbon..origin/master
+
+    # From http://pjones.fedorapeople.org/gitconfig
+    #fpaste = !sh -c 'git format-patch --stdout "$@" | fpaste' -
+    diffstat = !sh -c 'git diff | diffstat -p0' -
+
 [diff]
   color  = auto
   rename = copy
