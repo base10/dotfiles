@@ -1,22 +1,3 @@
-# Additional exports to match nathan's historical .bash profile
-##############################################################################
-export SHORTHOST=`hostname -s`
-
-# Add in the right host info
-if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
-    . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
-else
-    . $HOME/code/env/zsh_includes/global.zsh
-fi
-
-alias cdcb='cd $CODE;pwd'
-alias cd_bin='cd $CODE/bin'
-alias cd_gem='cd $CODE/gems;pwd'
-alias cd_plg='cd $CODE/plugins;pwd'
-alias cd_svc='cd $SERVICES;pwd'
-
-# DO NOT EDIT BELOW THIS LINE
-
 # load our own completion functions
 fpath=(~/.zsh/completion $fpath)
 
@@ -92,3 +73,17 @@ setopt CORRECT CORRECT_ALL
 
 # Enable extended globbing
 setopt EXTENDED_GLOB
+
+
+
+
+# DO NOT EDIT ABOVE THIS LINE
+
+export SHORTHOST=`hostname -s`
+
+# Add in the right host info
+if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
+    . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
+else
+    . $HOME/code/env/zsh_includes/global.zsh
+fi
