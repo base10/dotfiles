@@ -1,3 +1,7 @@
+set t_Co=256
+
+" DO NOT EDIT BELOW THIS LINE
+
 " Leader
 let mapleader = " "
 
