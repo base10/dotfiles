@@ -57,7 +57,7 @@ alias mmc="bundle exec middleman clean"
 alias r='rails'
 
 # Python
-aliase pyboot='python bootstrap.py --distribute'
+alias pyboot='python bootstrap.py --distribute'
 
 # DO NOT EDIT BELOW THIS LINE
 
