@@ -34,6 +34,7 @@ alias gi='cat .git/config'
 alias go='git checkout '
 alias gx='gitx --all'
 alias gh='git hist '
+alias gpr='git pull --rebase'
 alias gsvr="git svn rebase"
 alias gsvf="git svn fetch"
 alias gsdc="git svn dcommit"
