@@ -17,6 +17,7 @@ alias bb='bbedit'
 alias tm='tmux'
 alias tmc='tmuxinator content'
 alias tms='tmuxinator site'
+alias tmi='tmuxinator infra'
 alias ktc='tmux kill-session -t content'
 alias kts='tmux kill-session -t site'
 
