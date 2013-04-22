@@ -10,8 +10,9 @@ alias m2w='md2wiki.pl'
 alias pbs='pbpaste | pbcopy'
 alias szp='source ~/.zshrc'
 
-# editor (bbedit)
+# Utility bits
 alias bb='bbedit'
+alias dp='dayplan.rb'
 
 # tmux
 alias tm='tmux'
