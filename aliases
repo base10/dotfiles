@@ -42,6 +42,8 @@ alias gsvf="git svn fetch"
 alias gsdc="git svn dcommit"
 alias grbi="git rebase -i"
 alias glo="git log --oneline"
+alias gfu="git fetch upstream"
+alias gru="git rebase upstream/master"
 
 # MySQL
 alias dbup='sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
