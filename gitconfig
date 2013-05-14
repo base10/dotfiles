@@ -42,3 +42,4 @@
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
+	quotepath = false
