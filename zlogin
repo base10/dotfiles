@@ -22,3 +22,6 @@ export PS1='$(git_prompt_info)[${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$f
 # load thoughtbot/dotfiles scripts
 export PATH="$HOME/.bin:$PATH"
 
+### DO NOT EDIT ABOVE THIS LINE
+
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
