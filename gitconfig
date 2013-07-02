@@ -17,6 +17,7 @@
 [diff]
   color  = auto
   rename = copy
+  renameLimit = 30000
 [pager]
   color = true
 [status]
