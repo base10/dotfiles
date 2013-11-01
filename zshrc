@@ -1,9 +1,9 @@
 # load our own completion functions
 fpath=(~/.zsh/completion $fpath)
 
-for function in ~/.zsh/functions/*; do
-  source $function
-done
+#for function in ~/.zsh/functions/*; do
+#  source $function
+#done
 
 # completion
 autoload -U compinit
