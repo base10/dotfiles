@@ -22,6 +22,8 @@
   color = true
 [status]
   color = auto
+[include]
+  path = ~/code/env/gitconfig
 
 # DO NOT EDIT BELOW THIS LINE
 
