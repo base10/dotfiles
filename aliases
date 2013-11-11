@@ -13,6 +13,7 @@ alias szp='source ~/.zshrc'
 # Utility bits
 alias bb='bbedit'
 alias dp='dayplan.rb'
+alias h?='history | grep'
 
 # tmux
 alias tm='tmux'
