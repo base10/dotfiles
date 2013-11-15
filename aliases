@@ -65,6 +65,8 @@ alias rgs='gem server --daemon'
 alias mmb="bundle exec middleman build"
 alias mmc="bundle exec middleman clean"
 alias r='rails'
+alias be="bundle exec"
+alias bi="bundle install"
 
 # Python
 alias pyboot='python bootstrap.py --distribute'
