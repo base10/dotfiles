@@ -58,6 +58,7 @@ alias cb='cd $CODE'
 alias cbin='cd $CODE/bin'
 alias cgem='cd $CODE/gems'
 alias svc='cd $CODE/services'
+alias plat='cd $HOME/Documents/teams+projects/platform'
 
 # Ruby
 alias help-strftime='ruby ~/bin/help-strftime.rb'
