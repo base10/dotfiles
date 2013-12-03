@@ -14,6 +14,7 @@ alias szp='source ~/.zshrc'
 alias bb='bbedit'
 alias dp='dayplan.rb'
 alias h='history | grep '
+alias pwc='pwd | pbcopy'
 
 # tmux
 alias tm='tmux'
