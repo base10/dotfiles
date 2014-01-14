@@ -87,3 +87,6 @@ if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
 else
     . $HOME/code/env/zsh_includes/global.zsh
 fi
+
+export PATH
+export PATH="$(consolidate-path)"
