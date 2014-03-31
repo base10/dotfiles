@@ -17,9 +17,7 @@ alias h='history | grep '
 alias pwc='pwd | pbcopy'
 
 # tmux
-alias tm='tmux'
-alias tmc='tmuxinator content'
-alias tms='tmuxinator site'
+alias tm='tmuxinator'
 alias tmi='tmuxinator infra'
 alias ktc='tmux kill-session -t content'
 alias kts='tmux kill-session -t site'
