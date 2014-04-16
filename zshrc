@@ -89,4 +89,3 @@ else
 fi
 
 export PATH
-export PATH="$(consolidate-path)"
