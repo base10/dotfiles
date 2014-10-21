@@ -1,0 +1,1665 @@
+diff --git a/.gitignore b/.gitignore
+index 941a551..6c104ca 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1 +1,2 @@
+-zsh/.zhistory
++!bin
++vim/bundle/
+diff --git a/Brewfile b/Brewfile
+new file mode 100644
+index 0000000..cb35a08
+--- /dev/null
++++ b/Brewfile
+@@ -0,0 +1,2 @@
++tap thoughtbot/formulae
++install rcm
+diff --git a/LICENSE b/LICENSE
+index a15faef..4e35590 100644
+--- a/LICENSE
++++ b/LICENSE
+@@ -2,7 +2,7 @@ LICENSE
+ 
+ The MIT License
+ 
+-Copyright (c) 2009-2013 thoughtbot, inc.
++Copyright (c) 2009-2014 thoughtbot, inc.
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+diff --git a/README.md b/README.md
+index 337599b..f05c966 100644
+--- a/README.md
++++ b/README.md
+@@ -4,92 +4,146 @@ thoughtbot dotfiles
+ Requirements
+ ------------
+ 
+-Set zsh as your login shell.
++Set zsh as your login shell:
+ 
+-    chsh -s /bin/zsh
++    chsh -s $(which zsh)
+ 
+ Install
+ -------
+ 
+-First, [fork this repo](/thoughtbot/dotfiles#fork_box) on Github.
++Clone onto your laptop:
+ 
+-Then, clone your Github fork onto your laptop and install it:
++    git clone git://github.com/thoughtbot/dotfiles.git
+ 
+-    git clone git@github.com:your-github-name/dotfiles.git
+-    cd dotfiles
+-    ./install.sh
++(Or, [fork and keep your fork
++updated](http://robots.thoughtbot.com/keeping-a-github-fork-updated)).
+ 
+-This will create symlinks for config files in your home directory. If you
+-include the line "DO NOT EDIT BELOW THIS LINE" anywhere in a config file, it
+-will copy that file over instead of symlinking it, and it will leave
+-everything above that line in your local config intact.
++Install [rcm](https://github.com/thoughtbot/rcm):
+ 
+-You can safely run `./install.sh` multiple times to update.
++    brew bundle dotfiles/Brewfile
+ 
+-Why fork?
+----------
++Install the dotfiles:
+ 
+-You should be able to experiment with your own dotfiles, save them in version
+-control, and still get updates from `thoughtbot/dotfiles`.
++    env RCRC=$HOME/dotfiles/rcrc rcup
+ 
+-The `master` branch is for your customizations and the `upstream` branch is for
+-thoughtbot's updates.
++This command will create symlinks for config files in your home directory.
++Setting the `RCRC` environment variable tells `rcup` to use standard
++configuration options:
+ 
+-Set up the upstream branch
+---------------------------
++* Exclude the `README.md`, `LICENSE`, and `Brewfile` files, which are part of
++  the `dotfiles` repository but do not need to be symlinked in.
++* Give precedence to personal overrides which by default are placed in
++  `~/dotfiles-local`
+ 
+-You only have to do this once:
++You can safely run `rcup` multiple times to update:
+ 
+-    git remote add upstream git@github.com:thoughtbot/dotfiles.git
+-    git fetch upstream
+-    git checkout -b upstream upstream/master
++    rcup
+ 
+ Make your own customizations
+ ----------------------------
+ 
+-Put your customizations at the top of files, separated by "DO NOT EDIT BELOW
+-THIS LINE."
++Put your customizations in dotfiles appended with `.local`:
+ 
+-For example, the top of your `~/.gitconfig` might look like this:
++* `~/.aliases.local`
++* `~/.gitconfig.local`
++* `~/.gvimrc.local`
++* `~/.psqlrc.local` (we supply a blank `.psqlrc.local` to prevent `psql` from
++  throwing an error, but you should overwrite the file with your own copy)
++* `~/.tmux.conf.local`
++* `~/.vimrc.local`
++* `~/.vimrc.bundles.local`
++* `~/.zshrc.local`
+ 
+-    [user]
+-      name = Joe Ferris
+-      email = jferris@thoughtbot.com
+-
+-    # DO NOT EDIT BELOW THIS LINE
++For example, your `~/.aliases.local` might look like this:
+ 
+-    [push]
+-      default = current
++    # Productivity
++    alias todo='$EDITOR ~/.todo'
+ 
+-The top of your `~/.zlogin` might look like this:
++Your `~/.gitconfig.local` might look like this:
+ 
+-    # RVM
+-    [[ -s '/Users/croaky/.rvm/scripts/rvm' ]] && source '/Users/croaky/.rvm/scripts/rvm'
++    [alias]
++      l = log --pretty=colored
++    [pretty]
++      colored = format:%Cred%h%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset
++    [user]
++      name = Dan Croak
++      email = dan@thoughtbot.com
+ 
+-    # DO NOT EDIT BELOW THIS LINE
++Your `~/.zshrc.local` might look like this:
+ 
+     # recommended by brew doctor
+     export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+ 
+-Get thoughtbot's updates
+-------------------------
++Your `~/.vimrc.bundles.local` might look like this:
++
++    Plugin 'Lokaltog/vim-powerline'
++    Plugin 'stephenmckinney/vim-solarized-powerline'
++
++What's in it?
++-------------
++
++[vim](http://www.vim.org/) configuration:
++
++* [Ctrl-P](https://github.com/kien/ctrlp.vim) for fuzzy file/buffer/tag finding.
++* [Rails.vim](https://github.com/tpope/vim-rails) for enhanced navigation of
++  Rails file structure via `gf` and `:A` (alternate), `:Rextract` partials,
++  `:Rinvert` migrations, etc.
++* Run [RSpec](https://www.relishapp.com/rspec) specs from vim.
++* Set `<leader>` to a single space.
++* Switch between the last two files with space-space.
++* Syntax highlighting for CoffeeScript, Textile, Cucumber, Haml, Markdown, and
++  HTML.
++* Use [Ag](https://github.com/ggreer/the_silver_searcher) instead of Grep when
++  available.
++* Use [Exuberant Ctags](http://ctags.sourceforge.net/) for tab completion.
++* Use [GitHub color scheme](https://github.com/croaky/vim-colors-github).
++* Use [Vundle](https://github.com/gmarik/Vundle.vim) to manage plugins.
++
++[tmux](http://robots.thoughtbot.com/a-tmux-crash-course)
++configuration:
++
++* Improve color resolution.
++* Remove administrative debris (session name, hostname, time) in status bar.
++* Set prefix to `Ctrl+a` (like GNU screen).
++* Soften status bar color from harsh green to light gray.
++
++[git](http://git-scm.com/) configuration:
++
++* Adds a `create-branch` alias to create feature branches.
++* Adds a `delete-branch` alias to delete feature branches.
++* Adds a `merge-branch` alias to merge feature branches into master.
++* Adds an `up` alias to fetch and rebase `origin/master` into the feature
++  branch. Use `git up -i` for interactive rebases.
++
++[Ruby](https://www.ruby-lang.org/en/) configuration:
++
++* Add trusted binstubs to the `PATH`.
++* Load rbenv into the shell, adding shims onto our `PATH`.
+ 
+-Each time you want to include thoughtbot's changes:
++Shell aliases and scripts:
+ 
+-    git checkout upstream
+-    git pull
+-    git checkout master
+-    git rebase upstream
++* `b` for `bundle`.
++* `g` with no arguments is `git status` and with arguments acts like `git`.
++* `git-churn` to show churn for the files changed in the branch.
++* `m` for `rake db:migrate && rake db:rollback && rake db:migrate && rake db:test:prepare`.
++* `mcd` to make a directory and change into it.
++* `replace foo bar **/*.rb` to find and replace within a given list of files.
++* `rk` for `rake`.
++* `tat` to attach to tmux session named the same as the current directory.
++* `v` for `$VISUAL`.
+ 
+ Credits
+ -------
+ 
+-Thank you, [contributors](/thoughtbot/dotfiles/graphs/contributors)!
++Thank you, [contributors](https://github.com/thoughtbot/dotfiles/contributors)!
++Also, thank you to Corey Haines, Gary Bernhardt, and others for sharing your
++dotfiles and other shell scripts from which we derived inspiration for items
++in this project.
+ 
+ ![thoughtbot](http://thoughtbot.com/images/tm/logo.png)
+ 
+ Dotfiles is maintained by [thoughtbot, inc](http://thoughtbot.com/community)
+ The names and logos for thoughtbot are trademarks of thoughtbot, inc.
+ 
+-Dotfiles is © 2009-2013 thoughtbot, inc. It is free software and may be
+-redistributed under the terms specified in the MIT-LICENSE file.
++Dotfiles is © 2009-2014 thoughtbot, inc. It is free software and may be
++redistributed under the terms specified in the [LICENSE](LICENSE) file.
+diff --git a/ackrc b/ackrc
+deleted file mode 100644
+index 53d886c..0000000
+--- a/ackrc
++++ /dev/null
+@@ -1,17 +0,0 @@
+---ignore-dir=dojo_root
+---ignore-dir=dojo_sdk
+---ignore-dir=mootools
+---ignore-dir=raphael
+-
+-# DO NOT EDIT BELOW THIS LINE
+-
+-# Search
+---type-set=coffee=.coffee
+---type-set=cucumber=.feature
+---type-set=haml=.haml
+---type-set=sass=.sass,.scss
+-
+-# Don't search
+---ignore-dir=log
+---ignore-dir=tags
+---ignore-dir=tmp
+diff --git a/agignore b/agignore
+new file mode 100644
+index 0000000..2243475
+--- /dev/null
++++ b/agignore
+@@ -0,0 +1,3 @@
++log
++tags
++tmp
+diff --git a/aliases b/aliases
+index d71e276..a064dce 100644
+--- a/aliases
++++ b/aliases
+@@ -1,78 +1,3 @@
+-# Local shortcuts
+-alias ep='date +%s'
+-alias ps='ps aux'
+-alias psme="ps | grep $USER"
+-
+-alias rm='rm -i'
+-alias mv='mv -i'
+-
+-alias m2w='md2wiki.pl'
+-alias pbs='pbpaste | pbcopy'
+-alias szp='source ~/.zshrc'
+-
+-# Utility bits
+-alias bb='bbedit'
+-alias dp='dayplan.rb'
+-alias h='history | grep '
+-alias pwc='pwd | pbcopy'
+-
+-# tmux
+-alias tm='tmuxinator'
+-alias tmi='tmuxinator infra'
+-alias ktc='tmux kill-session -t content'
+-alias kts='tmux kill-session -t site'
+-
+-# git
+-alias gs='git stash'
+-alias gt='git st'
+-alias gsl='git stash list'
+-alias gsp='git stash pop'
+-alias gl='git lg'
+-alias ga='git add '
+-alias gb='git branch '
+-alias gc='git commit'
+-alias gca='git commit --amend'
+-alias gd='git diff'
+-alias gf='git fetch'
+-alias gic='cat .git/config'
+-alias go='git checkout '
+-alias gx='gitx --all'
+-alias gh='git hist '
+-alias gpr='git pull --rebase'
+-alias gp='git push'
+-alias gsvr="git svn rebase"
+-alias gsvf="git svn fetch"
+-alias gsdc="git svn dcommit"
+-alias grbi="git rebase -i"
+-alias glo="git log --oneline"
+-alias gfu="git fetch upstream"
+-alias gru="git rebase upstream/master"
+-
+-# MySQL
+-alias dbup='sudo launchctl load -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+-alias dbdown='sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
+-
+-# code env stuff
+-alias cb='cd $CODE'
+-alias cbin='cd $CODE/bin'
+-alias cgem='cd $CODE/gems'
+-alias svc='cd $CODE/services'
+-alias plat='cd $HOME/Documents/teams+projects/platform'
+-
+-# Ruby
+-alias help-strftime='ruby ~/bin/help-strftime.rb'
+-alias rgs='gem server --daemon'
+-alias mmb="bundle exec middleman build"
+-alias mmc="bundle exec middleman clean"
+-alias r='rails'
+-alias be="bundle exec"
+-alias bi="bundle install"
+-
+-# Python
+-alias pyboot='python bootstrap.py --distribute'
+-
+-# DO NOT EDIT BELOW THIS LINE
+-
+ # Unix
+ alias tlf="tail -f"
+ alias ln='ln -v'
+@@ -85,9 +10,10 @@ alias -g G='| grep'
+ alias -g M='| less'
+ alias -g L='| wc -l'
+ alias -g ONE="| awk '{ print \$1}'"
++alias e="$EDITOR"
++alias v="$VISUAL"
+ 
+ # git
+-alias g="git"
+ alias gci="git pull --rebase && rake && git push"
+ 
+ # Bundler
+@@ -95,15 +21,12 @@ alias b="bundle"
+ 
+ # Tests and Specs
+ alias t="ruby -I test"
+-alias cuc="bundle exec cucumber"
+-
+-# Rubygems
+-alias gi="gem install"
+-alias giv="gem install -v"
+ 
+ # Rails
+-alias migrate="rake db:migrate && rake db:rollback && rake db:migrate && rake db:test:prepare"
++alias migrate="rake db:migrate db:rollback && rake db:migrate"
+ alias m="migrate"
+ alias rk="rake"
+ alias s="rspec"
+-alias z="zeus"
++
++# Include custom aliases
++[[ -f ~/.aliases.local ]] && source ~/.aliases.local
+diff --git a/bin/consolidate-path b/bin/consolidate-path
+deleted file mode 100755
+index 428a048..0000000
+--- a/bin/consolidate-path
++++ /dev/null
+@@ -1,15 +0,0 @@
+-#!/usr/bin/env zsh
+-# Remove duplicate entries from PATH
+-
+-# Taken from: https://github.com/mislav/dotfiles/blob/master/bin/consolidate-path
+-
+-typeset -a paths result
+-paths=($path)
+-
+-while [[ ${#paths} -gt 0 ]]; do
+-  p="${paths[1]}"
+-  shift paths
+-  [[ -z ${paths[(r)$p]} ]] && result+="$p"
+-done
+-
+-echo ${(j+:+)result}
+diff --git a/bin/deployment_environment.rb b/bin/deployment_environment.rb
+deleted file mode 100644
+index 39ec164..0000000
+--- a/bin/deployment_environment.rb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-class DeploymentEnvironment
+-  def initialize(subcommands)
+-    @subcommands = subcommands
+-    @subcommand = @subcommands.first
+-  end
+-
+-  def run
+-    case @subcommand
+-    when 'backup'
+-      system "heroku pgbackups:capture --expire --remote #{@environment}"
+-    when 'console'
+-      system "heroku run console --remote #{@environment}"
+-    when 'migrate'
+-      system %{
+-        heroku run rake db:migrate --remote #{@environment} &&
+-        heroku restart --remote #{@environment}
+-      }
+-    when 'tail'
+-      system "heroku logs --tail --remote #{@environment}"
+-    else
+-      system "heroku #{@subcommands.join(' ')} --remote #{@environment}"
+-    end
+-  end
+-end
+diff --git a/bin/git-churn b/bin/git-churn
+index 01062e0..0b000fe 100755
+--- a/bin/git-churn
++++ b/bin/git-churn
+@@ -1,7 +1,5 @@
+ #!/usr/bin/ruby
+ #
+-# Credits: Corey Haines, Gary Bernhardt, Dan Croak
+-#
+ # Put this on your $PATH (~/bin is recommended).
+ #
+ # Show churn for the files changed in the branch:
+diff --git a/bin/load-backup-into b/bin/load-backup-into
+deleted file mode 100755
+index 9a9976c..0000000
+--- a/bin/load-backup-into
++++ /dev/null
+@@ -1,48 +0,0 @@
+-#!/usr/bin/ruby
+-
+-# Load latest production database backup into database for target environment.
+-#
+-# load-backup-into development
+-# load-backup-into staging
+-
+-require 'yaml'
+-
+-class Backup
+-  def initialize(subcommands)
+-    @target_environment = subcommands.first
+-  end
+-
+-  def load
+-    if into_development?
+-      system %{
+-        curl -s `#{db_backup_url}` | \
+-        pg_restore --verbose --clean --no-acl --no-owner -d #{db_development}
+-      }
+-    elsif into_staging?
+-      system %{
+-        heroku pgbackups:restore DATABASE `#{db_backup_url}` --remote staging
+-      }
+-    end
+-  end
+-
+-  private
+-
+-  def into_development?
+-    @target_environment == 'development'
+-  end
+-
+-  def into_staging?
+-    @target_environment == 'staging'
+-  end
+-
+-  def db_backup_url
+-    'heroku pgbackups:url --remote production'
+-  end
+-
+-  def db_development
+-    YAML.load(IO.read('config/database.yml'))['development']['database']
+-  end
+-end
+-
+-backup = Backup.new(ARGV)
+-backup.load
+diff --git a/bin/production b/bin/production
+deleted file mode 100755
+index aeaaf56..0000000
+--- a/bin/production
++++ /dev/null
+@@ -1,26 +0,0 @@
+-#!/usr/bin/env ruby
+-#
+-# Interact with the production environment on Heroku.
+-#
+-# production backup
+-# production console
+-# production migrate
+-# production tail
+-#
+-# The script also acts as a pass-through, so you can do anything with it that
+-# you can do with `heroku ______ -r production`:
+-#
+-# production open
+-# watch production ps
+-
+-require File.join(File.dirname(__FILE__), 'deployment_environment')
+-
+-class Production < DeploymentEnvironment
+-  def initialize(subcommands)
+-    @environment = 'production'
+-    super(subcommands)
+-  end
+-end
+-
+-production = Production.new(ARGV)
+-production.run
+diff --git a/bin/replace b/bin/replace
+new file mode 100755
+index 0000000..7913d42
+--- /dev/null
++++ b/bin/replace
+@@ -0,0 +1,12 @@
++#!/bin/sh
++#
++# Find and replace by a given list of files.
++#
++# replace foo bar **/*.rb
++
++find_this=$1
++shift
++replace_with=$1
++shift
++
++ag -l $find_this $* | xargs sed -i '' "s/$find_this/$replace_with/g"
+diff --git a/bin/staging b/bin/staging
+deleted file mode 100755
+index 932f39e..0000000
+--- a/bin/staging
++++ /dev/null
+@@ -1,26 +0,0 @@
+-#!/usr/bin/env ruby
+-#
+-# Interact with the staging environment on Heroku.
+-#
+-# staging backup
+-# staging console
+-# staging migrate
+-# staging tail
+-#
+-# The script also acts as a pass-through, so you can do anything with it that
+-# you can do with `heroku ______ -r staging`:
+-#
+-# staging open
+-# watch staging ps
+-
+-require File.join(File.dirname(__FILE__), 'deployment_environment')
+-
+-class Staging < DeploymentEnvironment
+-  def initialize(subcommands)
+-    @environment = 'staging'
+-    super(subcommands)
+-  end
+-end
+-
+-staging = Staging.new(ARGV)
+-staging.run
+diff --git a/bin/tat b/bin/tat
+index 52f07b8..88c337e 100755
+--- a/bin/tat
++++ b/bin/tat
+@@ -1,6 +1,5 @@
+ #!/bin/sh
+ #
+-# Attach to tmux session named the same as current directory.
+-#
++# Attach or create tmux session named the same as current directory.
+ 
+-tmux attach -t `basename $PWD`
++tmux new-session -As "$(basename "$PWD" | tr . -)"
+diff --git a/gemrc b/gemrc
+new file mode 100644
+index 0000000..154cd47
+--- /dev/null
++++ b/gemrc
+@@ -0,0 +1 @@
++gem: --no-document
+diff --git a/gitconfig b/gitconfig
+index 9706872..7cfe18e 100644
+--- a/gitconfig
++++ b/gitconfig
+@@ -1,48 +1,28 @@
+-[user]
+-	name = Nathan L. Walls
+-	email = nathan@wallscorp.us
+-[alias]
+-    br = branch
+-    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative
+-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+-    type = cat-file -t
+-    dump = cat-file -p
+-    ribbon = tag --force _ribbon origin/master
+-    catchup = log --patch --reverse --topo-order _ribbon..origin/master
+-
+-    # From http://pjones.fedorapeople.org/gitconfig
+-    #fpaste = !sh -c 'git format-patch --stdout "$@" | fpaste' -
+-    diffstat = !sh -c 'git diff | diffstat -p0' -
+-
+-[diff]
+-  color  = auto
+-  rename = copy
+-  renameLimit = 30000
+-[pager]
+-  color = true
+-[status]
+-  color = auto
+-[include]
+-  path = ~/code/env/gitconfig
+-
+-# DO NOT EDIT BELOW THIS LINE
+-
+ [push]
+-  default = tracking
+-[format]
+-  pretty = %Cblue%h%Creset %Cgreen[%ar]%Creset (%an) %s
++  default = current
++[color]
++  ui = auto
+ [alias]
+   aa = add --all
+-  am = commit --amend
+   ap = add --patch
++  ca = commit --amend
+   ci = commit -v
+   co = checkout
++  co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
+   create-branch = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
+-  delete-branch = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
+-  merge-branch = !git checkout master && git merge @{-1} --ff-only
+-  rebase-origin = !git fetch origin && git rebase origin/master
++  delete-branch = !sh -c 'git push origin :refs/heads/$1 && git branch -D $1' -
++  merge-branch = !git checkout master && git merge @{-1}
++  pr = !hub pull-request
+   st = status
++  up = !git fetch origin && git rebase origin/master
+ [core]
+   excludesfile = ~/.gitignore
+   autocrlf = input
+-  quotepath = false
++[merge]
++  ff = only
++[include]
++  path = .gitconfig.local
++[commit]
++  template = ~/.gitmessage
++[fetch]
++  prune = true
+diff --git a/gitignore b/gitignore
+index 1092055..904a10a 100644
+--- a/gitignore
++++ b/gitignore
+@@ -1,13 +1,10 @@
+ *.DS_Store
+ *.sw[nop]
+ .bundle
+-.sass-cache/
++.env
+ db/*.sqlite3
+ log/*.log
+ rerun.txt
+ tags
+ tmp/**/*
+ !tmp/cache/.keep
+-vendor/bundler_gems
+-vim/.netrwhist
+-zeus.json
+diff --git a/gitmessage b/gitmessage
+new file mode 100644
+index 0000000..76fd0d7
+--- /dev/null
++++ b/gitmessage
+@@ -0,0 +1,11 @@
++
++
++# 50-character subject line
++#
++# 72-character wrapped longer description. This should answer:
++#
++# * Why was this change necessary?
++# * How does it address the problem?
++# * Are there any side effects?
++#
++# Include a link to the ticket, if any.
+diff --git a/hooks/post-up b/hooks/post-up
+new file mode 100755
+index 0000000..0713f8f
+--- /dev/null
++++ b/hooks/post-up
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++touch $HOME/.psqlrc.local
++
++if [ ! -e $HOME/.vim/bundle/Vundle.vim ]; then
++  git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
++fi
++vim -u $HOME/.vimrc.bundles +PluginInstall +qa
+diff --git a/hushlogin b/hushlogin
+new file mode 100644
+index 0000000..e69de29
+diff --git a/install.sh b/install.sh
+deleted file mode 100755
+index 5663aed..0000000
+--- a/install.sh
++++ /dev/null
+@@ -1,38 +0,0 @@
+-#!/bin/sh
+-
+-cutstring="DO NOT EDIT BELOW THIS LINE"
+-
+-for name in *; do
+-  target="$HOME/.$name"
+-  if [ -e "$target" ]; then
+-    if [ ! -L "$target" ]; then
+-      cutline=`grep -n -m1 "$cutstring" "$target" | sed "s/:.*//"`
+-      if [ -n "$cutline" ]; then
+-        cutline=$((cutline-1))
+-        echo "Updating $target"
+-        head -n $cutline "$target" > update_tmp
+-        startline=`sed '1!G;h;$!d' "$name" | grep -n -m1 "$cutstring" | sed "s/:.*//"`
+-        if [ -n "$startline" ]; then
+-          tail -n $startline "$name" >> update_tmp
+-        else
+-          cat "$name" >> update_tmp
+-        fi
+-        mv update_tmp "$target"
+-      else
+-        echo "WARNING: $target exists but is not a symlink."
+-      fi
+-    fi
+-  else
+-    if [ "$name" != 'install.sh' ]; then
+-      echo "Creating $target"
+-      if [ -n "$(grep "$cutstring" "$name")" ]; then
+-        cp "$PWD/$name" "$target"
+-      else
+-        ln -s "$PWD/$name" "$target"
+-      fi
+-    fi
+-  fi
+-done
+-
+-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+-vim +BundleInstall +qa
+diff --git a/psqlrc b/psqlrc
+new file mode 100644
+index 0000000..39d3f3d
+--- /dev/null
++++ b/psqlrc
+@@ -0,0 +1,28 @@
++-- Official docs: http://www.postgresql.org/docs/9.3/static/app-psql.html
++-- Unofficial docs: http://robots.thoughtbot.com/improving-the-command-line-postgres-experience
++
++-- Don't display the "helpful" message on startup.
++\set QUIET 1
++\pset null '[NULL]'
++
++-- http://www.postgresql.org/docs/9.3/static/app-psql.html#APP-PSQL-PROMPTING
++\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
++-- PROMPT2 is printed when the prompt expects more input, like when you type
++-- SELECT * FROM<enter>. %R shows what type of input it expects.
++\set PROMPT2 '[more] %R > '
++
++-- Show how long each query takes to execute
++\timing
++
++-- Use best available output format
++\x auto
++\set VERBOSITY verbose
++\set HISTFILE ~/.psql_history- :DBNAME
++\set HISTCONTROL ignoredups
++\set COMP_KEYWORD_CASE upper
++\unset quiet
++
++-- psql can't check for a file's existence, so we'll provide an empty local
++-- file that users can override with their custom dotfiles. To set your own
++-- personal settings, place your own file in ~/.psqlrc.local
++\i ~/.psqlrc.local
+diff --git a/rcrc b/rcrc
+new file mode 100644
+index 0000000..742e54e
+--- /dev/null
++++ b/rcrc
+@@ -0,0 +1,2 @@
++EXCLUDES="README.md LICENSE Brewfile"
++DOTFILES_DIRS="$HOME/dotfiles-local $HOME/dotfiles"
+diff --git a/rspec b/rspec
+new file mode 100644
+index 0000000..edec62c
+--- /dev/null
++++ b/rspec
+@@ -0,0 +1,2 @@
++--colour
++--order random
+diff --git a/tmux.conf b/tmux.conf
+index 000a39b..eac0296 100644
+--- a/tmux.conf
++++ b/tmux.conf
+@@ -1,62 +1,5 @@
+-# titles
+-set -g set-titles on
+-#set -g set-titles-string string "#S"
+-
+-# Copy screen buffer output
+-bind-key P command-prompt -p 'save history to filename:' -I '~/tmux.history' 'capture-pane -S -32768 ; save-buffer %1 ; delete-buffer'
+-
+-# Set window split behavior
+-unbind %
+-bind | split-window -h
+-bind - split-window -v
+-
+-bind -r H resize-pane -L 5
+-bind -r J resize-pane -D 5
+-bind -r K resize-pane -U 5
+-bind -r L resize-pane -R 5
+-
+-# Tweak command delay
+-set -sg escape-time 1
+-
+-# Base indexes are 1, to use the nice part of the keyboard
+-set -g base-index 1
+-setw -g pane-base-index 1
+-
+-# reload on demand
+-bind r source-file ~/.tmux.conf \; display "Reloaded!"
+-
+-# Status bar
+-set -g status-justify centre
+-
+-# Make the active pane a little more obvious
+-set -g pane-border-fg colour238
+-set -g pane-active-border-bg colour238
+-set -g pane-active-border-fg colour34
+-
+-# Highlight active window
+-setw -g window-status-current-fg colour250
+-setw -g window-status-current-bg colour238
+-setw -g window-status-current-attr bright
+-
+-# Dim inactive windows
+-setw -g window-status-fg colour238
+-setw -g window-status-bg default
+-setw -g window-status-attr dim
+-
+-setw -g monitor-activity on
+-set -g visual-activity on
+-
+-# Scrollback
+-set -g history-limit 10000
+-
+-# DO NOT EDIT BELOW THIS LINE
+-
+ # improve colors
+-set -g default-terminal "screen-256color"
+-
+-# enable copy-paste http://goo.gl/DN82E
+-# enable RubyMotion http://goo.gl/WDlCy
+-set -g default-command "reattach-to-user-namespace -l zsh"
++set -g default-terminal 'screen-256color'
+ 
+ # act like vim
+ setw -g mode-keys vi
+@@ -64,7 +7,6 @@ bind h select-pane -L
+ bind j select-pane -D
+ bind k select-pane -U
+ bind l select-pane -R
+-
+ bind-key -r C-h select-window -t :-
+ bind-key -r C-l select-window -t :+
+ 
+@@ -72,6 +14,13 @@ bind-key -r C-l select-window -t :+
+ unbind C-b
+ set -g prefix C-a
+ 
++# start window numbers at 1 to match keyboard order with tmux window order
++set -g base-index 1
++set-window-option -g pane-base-index 1
++
++# renumber windows sequentially after closing any of them
++set -g renumber-windows on
++
+ # soften status bar color from harsh green to light gray
+ set -g status-bg '#666666'
+ set -g status-fg '#aaaaaa'
+@@ -79,3 +28,12 @@ set -g status-fg '#aaaaaa'
+ # remove administrative debris (session name, hostname, time) in status bar
+ set -g status-left ''
+ set -g status-right ''
++
++# increase scrollback lines
++set -g history-limit 10000
++
++# switch to last pane
++bind-key C-a last-pane
++
++# Local config
++if-shell "[ -f ~/.tmux.conf.local ]" 'source ~/.tmux.conf.local'
+diff --git a/vim/bundle/ctags.vim b/vim/bundle/ctags.vim
+deleted file mode 160000
+index a438a4f..0000000
+--- a/vim/bundle/ctags.vim
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit a438a4f580c9445744c25941185c8cb8fb6b79b9
+diff --git a/vim/bundle/ctrlp.vim b/vim/bundle/ctrlp.vim
+deleted file mode 160000
+index c1646e3..0000000
+--- a/vim/bundle/ctrlp.vim
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit c1646e3c28d75bcc834af4836f4c6e12296ba891
+diff --git a/vim/bundle/greplace.vim b/vim/bundle/greplace.vim
+deleted file mode 160000
+index 993631c..0000000
+--- a/vim/bundle/greplace.vim
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 993631c237f25051327d13ba9d597f77cda7e6e7
+diff --git a/vim/bundle/html.vim b/vim/bundle/html.vim
+deleted file mode 160000
+index dc0dcc6..0000000
+--- a/vim/bundle/html.vim
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit dc0dcc66164d0a404be8477ff1d51fa7669b70ea
+diff --git a/vim/bundle/tComment b/vim/bundle/tComment
+deleted file mode 160000
+index 84af419..0000000
+--- a/vim/bundle/tComment
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 84af41926b709af6118be586ae7d4a5094ce6f47
+diff --git a/vim/bundle/textile.vim b/vim/bundle/textile.vim
+deleted file mode 160000
+index 02687a5..0000000
+--- a/vim/bundle/textile.vim
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 02687a578042214b91aec50ac1845a96eb3d9591
+diff --git a/vim/bundle/treetop.vim b/vim/bundle/treetop.vim
+deleted file mode 160000
+index 9ba73a5..0000000
+--- a/vim/bundle/treetop.vim
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 9ba73a5f75630e24550fbd8ea600b264e87fedd5
+diff --git a/vim/bundle/vim-coffee-script b/vim/bundle/vim-coffee-script
+deleted file mode 160000
+index 089506e..0000000
+--- a/vim/bundle/vim-coffee-script
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 089506ed89da1849485fdfcca002a42111759fab
+diff --git a/vim/bundle/vim-colors-github b/vim/bundle/vim-colors-github
+deleted file mode 160000
+index e5bc567..0000000
+--- a/vim/bundle/vim-colors-github
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit e5bc5678c8509cdc99541dcc585e65bcc2f79f19
+diff --git a/vim/bundle/vim-cucumber b/vim/bundle/vim-cucumber
+deleted file mode 160000
+index 8112713..0000000
+--- a/vim/bundle/vim-cucumber
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 8112713aaf04192d255761b3d19279f2b9582996
+diff --git a/vim/bundle/vim-endwise b/vim/bundle/vim-endwise
+deleted file mode 160000
+index fd869a7..0000000
+--- a/vim/bundle/vim-endwise
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit fd869a756bba01ce2768980a48e8fce51a14f117
+diff --git a/vim/bundle/vim-fugitive b/vim/bundle/vim-fugitive
+deleted file mode 160000
+index 6462bdb..0000000
+--- a/vim/bundle/vim-fugitive
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 6462bdb4b936d27ecfc056d1f9c026acc40743d4
+diff --git a/vim/bundle/vim-haml b/vim/bundle/vim-haml
+deleted file mode 160000
+index ce0cfed..0000000
+--- a/vim/bundle/vim-haml
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit ce0cfeddbd2825d07a4361ab1871d6970361a1c9
+diff --git a/vim/bundle/vim-markdown b/vim/bundle/vim-markdown
+deleted file mode 160000
+index 5ed43c2..0000000
+--- a/vim/bundle/vim-markdown
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 5ed43c22bcdd8f6b639e74231c6c8816f538d22d
+diff --git a/vim/bundle/vim-matchit b/vim/bundle/vim-matchit
+deleted file mode 160000
+index 8f8665e..0000000
+--- a/vim/bundle/vim-matchit
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 8f8665e04fe377a25bbed29abf13ea66a1a0c129
+diff --git a/vim/bundle/vim-rails b/vim/bundle/vim-rails
+deleted file mode 160000
+index 0ec48b0..0000000
+--- a/vim/bundle/vim-rails
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 0ec48b017f3c1436c6c3f584779805bb25017f8c
+diff --git a/vim/bundle/vim-surround b/vim/bundle/vim-surround
+deleted file mode 160000
+index 02199ea..0000000
+--- a/vim/bundle/vim-surround
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 02199ea0080d744ec76b79d74ce56d51d25cf7ae
+diff --git a/vim/bundle/vundle b/vim/bundle/vundle
+deleted file mode 160000
+index 5dd478e..0000000
+--- a/vim/bundle/vundle
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 5dd478e18e2a613466776c94f16dd5c329123cae
+diff --git a/vimrc b/vimrc
+index 449fc28..6aba95e 100644
+--- a/vimrc
++++ b/vimrc
+@@ -1,12 +1,11 @@
+-set t_Co=256
+-set encoding=utf-8
+-
+-" DO NOT EDIT BELOW THIS LINE
++" Use Vim settings, rather then Vi settings. This setting must be as early as
++" possible, as it has side effects.
++set nocompatible
+ 
+ " Leader
+ let mapleader = " "
+ 
+-set nocompatible  " Use Vim settings, rather then Vi settings
++set backspace=2   " Backspace deletes like most programs in insert mode
+ set nobackup
+ set nowritebackup
+ set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+@@ -15,6 +14,7 @@ set ruler         " show the cursor position all the time
+ set showcmd       " display incomplete commands
+ set incsearch     " do incremental searching
+ set laststatus=2  " Always display the status line
++set autowrite     " Automatically :write before running commands
+ 
+ " Switch syntax highlighting on, when the terminal has colors
+ " Also switch on highlighting the last used search pattern.
+@@ -22,65 +22,60 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+   syntax on
+ endif
+ 
+-" Declare bundles are handled via Vundle
+-set rtp+=~/.vim/bundle/vundle/
+-call vundle#rc()
+-
+-" Let Vundle manage Vundle
+-Bundle 'gmarik/vundle'
+-
+-" Define bundles via Github repos
+-Bundle 'croaky/vim-colors-github'
+-Bundle 'kchmck/vim-coffee-script'
+-Bundle 'kien/ctrlp.vim'
+-Bundle 'nanki/treetop.vim'
+-Bundle 'timcharper/textile.vim'
+-Bundle 'tpope/vim-cucumber'
+-Bundle 'tpope/vim-endwise'
+-Bundle 'tpope/vim-fugitive'
+-Bundle 'tpope/vim-haml'
+-Bundle 'tpope/vim-markdown'
+-Bundle 'tpope/vim-rails'
+-Bundle 'tpope/vim-surround'
+-Bundle 'tsaleh/vim-matchit'
+-Bundle 'vim-scripts/ctags.vim'
+-Bundle 'vim-scripts/greplace.vim'
+-Bundle 'vim-scripts/tComment'
+-Bundle 'xenoterracide/html.vim'
++if filereadable(expand("~/.vimrc.bundles"))
++  source ~/.vimrc.bundles
++endif
+ 
+ filetype plugin indent on
+ 
+ augroup vimrcEx
+-  au!
+-
+-  " For all text files set 'textwidth' to 78 characters.
+-  autocmd FileType text setlocal textwidth=78
++  autocmd!
+ 
+   " When editing a file, always jump to the last known cursor position.
+-  " Don't do it when the position is invalid or when inside an event handler
+-  " (happens when dropping a file on gvim).
++  " Don't do it for commit messages, when the position is invalid, or when
++  " inside an event handler (happens when dropping a file on gvim).
+   autocmd BufReadPost *
+-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
++    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal g`\"" |
+     \ endif
++
++  " Cucumber navigation commands
++  autocmd User Rails Rnavcommand step features/step_definitions -glob=**/* -suffix=_steps.rb
++  autocmd User Rails Rnavcommand config config -glob=**/* -suffix=.rb -default=routes
++
++  " Set syntax highlighting for specific file types
++  autocmd BufRead,BufNewFile Appraisals set filetype=ruby
++  autocmd BufRead,BufNewFile *.md set filetype=markdown
++
++  " Enable spellchecking for Markdown
++  autocmd FileType markdown setlocal spell
++
++  " Automatically wrap at 80 characters for Markdown
++  autocmd BufRead,BufNewFile *.md setlocal textwidth=80
++
++  " Allow stylesheets to autocomplete hyphenated words
++  autocmd FileType css,scss,sass setlocal iskeyword+=-
+ augroup END
+ 
+ " Softtabs, 2 spaces
+ set tabstop=2
+ set shiftwidth=2
++set shiftround
+ set expandtab
+ 
+ " Display extra whitespace
+ set list listchars=tab:»·,trail:·
+ 
+-" Local config
+-if filereadable(".vimrc.local")
+-  source .vimrc.local
+-endif
++" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
++if executable('ag')
++  " Use Ag over Grep
++  set grepprg=ag\ --nogroup\ --nocolor
+ 
+-" Use Ack instead of Grep when available
+-if executable("ack")
+-  set grepprg=ack\ -H\ --nogroup\ --nocolor
++  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
++  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
++
++  " ag is fast enough that CtrlP doesn't need to cache
++  let g:ctrlp_use_caching = 0
+ endif
+ 
+ " Color scheme
+@@ -88,18 +83,18 @@ colorscheme github
+ highlight NonText guibg=#060606
+ highlight Folded  guibg=#0A0A0A guifg=#9090D0
+ 
++" Make it obvious where 80 characters is
++set textwidth=80
++set colorcolumn=+1
++
+ " Numbers
+ set number
+ set numberwidth=5
+ 
+-" Snippets are activated by Shift+Tab
+-let g:snippetsEmu_key = "<S-Tab>"
+-
+ " Tab completion
+ " will insert tab at beginning of line,
+ " will use completion if not at beginning
+ set wildmode=list:longest,list:full
+-set complete=.,w,t
+ function! InsertTabWrapper()
+     let col = col('.') - 1
+     if !col || getline('.')[col - 1] !~ '\k'
+@@ -109,6 +104,7 @@ function! InsertTabWrapper()
+     endif
+ endfunction
+ inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
++inoremap <S-Tab> <c-n>
+ 
+ " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
+ let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+@@ -116,12 +112,6 @@ let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+ " Index ctags from any project, including those outside Rails
+ map <Leader>ct :!ctags -R .<CR>
+ 
+-" Cucumber navigation commands
+-autocmd User Rails Rnavcommand step features/step_definitions -glob=**/* -suffix=_steps.rb
+-autocmd User Rails Rnavcommand config config -glob=**/* -suffix=.rb -default=routes
+-" :Cuc my text (no quotes) -> runs cucumber scenarios containing "my text"
+-command! -nargs=+ Cuc :!ack --no-heading --no-break <q-args> | cut -d':' -f1,2 | xargs bundle exec cucumber --no-color
+-
+ " Switch between the last two files
+ nnoremap <leader><leader> <c-^>
+ 
+@@ -131,53 +121,36 @@ nnoremap <Right> :echoe "Use l"<CR>
+ nnoremap <Up> :echoe "Use k"<CR>
+ nnoremap <Down> :echoe "Use j"<CR>
+ 
+-" Treat <li> and <p> tags like the block tags they are
+-let g:html_indent_tags = 'li\|p'
+-
+-" Markdown files end in .md
+-au BufRead,BufNewFile *.md set filetype=markdown
+-
+-" Enable spellchecking for Markdown
+-au BufRead,BufNewFile *.md setlocal spell
+-
+-" Automatically wrap at 80 characters for Markdown
+-au BufRead,BufNewFile *.md setlocal textwidth=80
++" vim-rspec mappings
++nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
++nnoremap <Leader>s :call RunNearestSpec()<CR>
++nnoremap <Leader>l :call RunLastSpec()<CR>
+ 
+-" rspec mappings
+-map <Leader>t :call RunCurrentSpecFile()<CR>
+-map <Leader>s :call RunNearestSpec()<CR>
+-map <Leader>l :call RunLastSpec()<CR>
++" Run commands that require an interactive shell
++nnoremap <Leader>r :RunInInteractiveShell<space>
+ 
+-function! RunCurrentSpecFile()
+-  if InSpecFile()
+-    let l:command = "s " . @% . " -f documentation"
+-    call SetLastSpecCommand(l:command)
+-    call RunSpecs(l:command)
+-  endif
+-endfunction
++" Treat <li> and <p> tags like the block tags they are
++let g:html_indent_tags = 'li\|p'
+ 
+-function! RunNearestSpec()
+-  if InSpecFile()
+-    let l:command = "s " . @% . " -l " . line(".") . " -f documentation"
+-    call SetLastSpecCommand(l:command)
+-    call RunSpecs(l:command)
+-  endif
+-endfunction
++" Open new split panes to right and bottom, which feels more natural
++set splitbelow
++set splitright
+ 
+-function! RunLastSpec()
+-  if exists("t:last_spec_command")
+-    call RunSpecs(t:last_spec_command)
+-  endif
+-endfunction
++" Quicker window movement
++nnoremap <C-j> <C-w>j
++nnoremap <C-k> <C-w>k
++nnoremap <C-h> <C-w>h
++nnoremap <C-l> <C-w>l
+ 
+-function! InSpecFile()
+-  return match(expand("%"), "_spec.rb$") != -1
+-endfunction
++" configure syntastic syntax checking to check on open as well as save
++let g:syntastic_check_on_open=1
++let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+ 
+-function! SetLastSpecCommand(command)
+-  let t:last_spec_command = a:command
+-endfunction
++" Set spellfile to location that is guaranteed to exist, can be symlinked to
++" Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.
++set spellfile=$HOME/.vim-spell-en.utf-8.add
+ 
+-function! RunSpecs(command)
+-  execute ":w\|!clear && echo " . a:command . " && echo && " . a:command
+-endfunction
++" Local config
++if filereadable($HOME . "/.vimrc.local")
++  source ~/.vimrc.local
++endif
+diff --git a/vimrc.bundles b/vimrc.bundles
+new file mode 100644
+index 0000000..15c1f67
+--- /dev/null
++++ b/vimrc.bundles
+@@ -0,0 +1,37 @@
++if &compatible
++  set nocompatible
++end
++
++filetype off
++set rtp+=~/.vim/bundle/Vundle.vim/
++call vundle#begin()
++
++" Let Vundle manage Vundle
++Plugin 'gmarik/Vundle.vim'
++
++" Define bundles via Github repos
++Plugin 'christoomey/vim-run-interactive'
++Plugin 'croaky/vim-colors-github'
++Plugin 'danro/rename.vim'
++Plugin 'kchmck/vim-coffee-script'
++Plugin 'kien/ctrlp.vim'
++Plugin 'pbrisbin/vim-mkdir'
++Plugin 'scrooloose/syntastic'
++Plugin 'slim-template/vim-slim'
++Plugin 'thoughtbot/vim-rspec'
++Plugin 'tpope/vim-bundler'
++Plugin 'tpope/vim-endwise'
++Plugin 'tpope/vim-fugitive'
++Plugin 'tpope/vim-rails'
++Plugin 'tpope/vim-surround'
++Plugin 'vim-ruby/vim-ruby'
++Plugin 'vim-scripts/ctags.vim'
++Plugin 'vim-scripts/matchit.zip'
++Plugin 'vim-scripts/tComment'
++
++if filereadable(expand("~/.vimrc.bundles.local"))
++  source ~/.vimrc.bundles.local
++endif
++
++call vundle#end()
++filetype on
+diff --git a/zlogin b/zlogin
+deleted file mode 100644
+index 6ab28aa..0000000
+--- a/zlogin
++++ /dev/null
+@@ -1,27 +0,0 @@
+-# adds the current branch name in green
+-git_prompt_info() {
+-  ref=$(git symbolic-ref HEAD 2> /dev/null)
+-  if [[ -n $ref ]]; then
+-    echo "[%{$fg_bold[green]%}${ref#refs/heads/}%{$reset_color%}]"
+-  fi
+-}
+-
+-# makes color constants available
+-autoload -U colors
+-colors
+-
+-# enable colored output from ls, etc
+-export CLICOLOR=1
+-
+-# expand functions in the prompt
+-setopt prompt_subst
+-
+-# prompt
+-export PS1='$(git_prompt_info)[${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}] '
+-
+-# load thoughtbot/dotfiles scripts
+-export PATH="$HOME/.bin:$PATH"
+-
+-### DO NOT EDIT ABOVE THIS LINE
+-
+-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+diff --git a/zsh/completion/_ack b/zsh/completion/_ack
+deleted file mode 100644
+index 59ecd58..0000000
+--- a/zsh/completion/_ack
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#compdef ack
+-
+-if (( CURRENT == 2 )); then
+-  if [[ -a tmp/tags ]]; then
+-    compadd $(cut -f 1 tmp/tags | uniq)
+-  fi
+-else;
+-  _files
+-fi
+diff --git a/zsh/completion/_ag b/zsh/completion/_ag
+new file mode 100644
+index 0000000..0d990d6
+--- /dev/null
++++ b/zsh/completion/_ag
+@@ -0,0 +1,7 @@
++#compdef ag
++
++if (( CURRENT == 2 )); then
++  compadd $(cut -f 1 tmp/tags .git/tags 2>/dev/null)
++else;
++  _files
++fi
+diff --git a/zsh/completion/_cucumber b/zsh/completion/_cucumber
+deleted file mode 100644
+index 49c6415..0000000
+--- a/zsh/completion/_cucumber
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#compdef cucumber
+-
+-compadd -P features/ -S .feature `ls features/**/*.feature | sed -E "s/features\/|\.feature//g"`
+diff --git a/zsh/completion/_production b/zsh/completion/_production
+new file mode 100644
+index 0000000..a124346
+--- /dev/null
++++ b/zsh/completion/_production
+@@ -0,0 +1,2 @@
++#compdef production
++compdef production=heroku
+diff --git a/zsh/completion/_rspec b/zsh/completion/_rspec
+index dec4733..f6bc569 100644
+--- a/zsh/completion/_rspec
++++ b/zsh/completion/_rspec
+@@ -1,3 +1,3 @@
+ #compdef rspec
+ 
+-compadd -P spec/ -S _spec.rb `ls spec/**/*_spec.rb | sed -E "s/spec\/|_spec\.rb//g"`
++compadd -P spec/ `ls spec/**/*_spec.rb | sed -E "s/spec\///g"`
+diff --git a/zsh/completion/_staging b/zsh/completion/_staging
+new file mode 100644
+index 0000000..fdcd38f
+--- /dev/null
++++ b/zsh/completion/_staging
+@@ -0,0 +1,2 @@
++#compdef staging
++compdef staging=heroku
+diff --git a/zsh/functions/change-extension b/zsh/functions/change-extension
+new file mode 100644
+index 0000000..596b9c5
+--- /dev/null
++++ b/zsh/functions/change-extension
+@@ -0,0 +1,9 @@
++# Change file extensions recursively in current directory
++#
++#   change-extension erb haml
++
++function change-extension() {
++  foreach f (**/*.$1)
++    mv $f $f:r.$2
++  end
++}
+diff --git a/zsh/functions/envup b/zsh/functions/envup
+new file mode 100644
+index 0000000..99ea286
+--- /dev/null
++++ b/zsh/functions/envup
+@@ -0,0 +1,10 @@
++# Load .env file into shell session for environment variables
++
++function envup() {
++  if [ -f .env ]; then
++    export `cat .env`
++  else
++    echo 'No .env file found' 1>&2
++    return 1
++  fi
++}
+diff --git a/zsh/functions/g b/zsh/functions/g
+new file mode 100644
+index 0000000..494e716
+--- /dev/null
++++ b/zsh/functions/g
+@@ -0,0 +1,12 @@
++# No arguments: `git status`
++# With arguments: acts like `git`
++g() {
++  if [[ $# > 0 ]]; then
++    git $@
++  else
++    git status
++  fi
++}
++
++# Complete g like git
++compdef g=git
+diff --git a/zsh/functions/mcd b/zsh/functions/mcd
+new file mode 100644
+index 0000000..4154b02
+--- /dev/null
++++ b/zsh/functions/mcd
+@@ -0,0 +1,5 @@
++# Make directory and change into it.
++
++function mcd() {
++  mkdir -p "$1" && cd "$1";
++}
+diff --git a/zsh/functions/rake b/zsh/functions/rake
+deleted file mode 100644
+index 2fee3f2..0000000
+--- a/zsh/functions/rake
++++ /dev/null
+@@ -1,7 +0,0 @@
+-rake() {
+-  if [ -S .zeus.sock ]; then
+-    zeus rake "$@"
+-  else
+-    command rake
+-  fi
+-}
+diff --git a/zsh/functions/rspec b/zsh/functions/rspec
+deleted file mode 100644
+index 330f267..0000000
+--- a/zsh/functions/rspec
++++ /dev/null
+@@ -1,7 +0,0 @@
+-rspec() {
+-  if [ -S .zeus.sock ]; then
+-    zeus rspec "$@"
+-  else
+-    command rspec "$@"
+-  fi
+-}
+diff --git a/zshrc b/zshrc
+index 58881b2..00da112 100644
+--- a/zshrc
++++ b/zshrc
+@@ -1,91 +1,79 @@
++# modify the prompt to contain git branch name if applicable
++git_prompt_info() {
++  ref=$(git symbolic-ref HEAD 2> /dev/null)
++  if [[ -n $ref ]]; then
++    echo " %{$fg_bold[green]%}${ref#refs/heads/}%{$reset_color%}"
++  fi
++}
++setopt promptsubst
++export PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%c%{$reset_color%}$(git_prompt_info) %# '
++
+ # load our own completion functions
+ fpath=(~/.zsh/completion $fpath)
+ 
+-#for function in ~/.zsh/functions/*; do
+-#  source $function
+-#done
+-
+ # completion
+ autoload -U compinit
+ compinit
+ 
+-# automatically enter directories without cd
+-setopt auto_cd
++# load custom executable functions
++for function in ~/.zsh/functions/*; do
++  source $function
++done
+ 
+-# use vim as an editor
+-export EDITOR=vim
++# makes color constants available
++autoload -U colors
++colors
+ 
+-# aliases
+-if [ -e "$HOME/.aliases" ]; then
+-  source "$HOME/.aliases"
+-fi
++# enable colored output from ls, etc
++export CLICOLOR=1
++
++# history settings
++setopt hist_ignore_all_dups inc_append_history
++HISTFILE=~/.zhistory
++HISTSIZE=4096
++SAVEHIST=4096
++
++# awesome cd movements from zshkit
++setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
++DIRSTACKSIZE=5
++
++# Enable extended globbing
++setopt extendedglob
++
++# Allow [ or ] whereever you want
++unsetopt nomatch
+ 
+ # vi mode
+ bindkey -v
+ bindkey "^F" vi-cmd-mode
+ bindkey jj vi-cmd-mode
+ 
+-# use incremental search
+-bindkey "^R" history-incremental-search-backward
+-
+-# add some readline keys back
++# handy keybindings
+ bindkey "^A" beginning-of-line
+ bindkey "^E" end-of-line
+-
+-# handy keybindings
++bindkey "^R" history-incremental-search-backward
+ bindkey "^P" history-search-backward
+ bindkey "^Y" accept-and-hold
+ bindkey "^N" insert-last-word
+ bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
+ 
+-# expand functions in the prompt
+-setopt prompt_subst
++# use vim as the visual editor
++export VISUAL=vim
++export EDITOR=$VISUAL
+ 
+-# prompt
+-export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
++# ensure dotfiles bin directory is loaded first
++export PATH="$HOME/.bin:/usr/local/bin:$PATH"
+ 
+-# keep TONS of history, set other history options
+-HISTSIZE=4096
+-SAVEHIST=4096
+-HISTFILE=$HOME/.zsh/.zhistory
+-
+-setopt histignoredups
+-setopt appendhistory
+-setopt incappendhistory
+-setopt sharehistory
+-setopt extendedhistory
+-
+-# look for ey config in project dirs
+-export EYRC=./.eyrc
+-
+-# automatically pushd
+-setopt auto_pushd
+-export dirstacksize=5
+-
+-# awesome cd movements from zshkit
+-setopt AUTOCD
+-
+-setopt AUTOPUSHD PUSHDMINUS PUSHDSILENT PUSHDTOHOME
+-setopt cdablevars
+-
+-# Try to correct command line spelling
+-setopt CORRECT CORRECT_ALL
+-
+-# Enable extended globbing
+-setopt EXTENDED_GLOB
+-
+-
+-
+-
+-# DO NOT EDIT ABOVE THIS LINE
++# load rbenv if available
++if which rbenv &>/dev/null ; then
++  eval "$(rbenv init - --no-rehash)"
++fi
+ 
+-export SHORTHOST=`hostname -s`
++# mkdir .git/safe in the root of repositories you trust
++export PATH=".git/safe/../../bin:$PATH"
+ 
+-# Add in the right host info
+-if [ -f $HOME/code/env/zsh_includes/$SHORTHOST.zsh ]; then
+-    . $HOME/code/env/zsh_includes/$SHORTHOST.zsh
+-else
+-    . $HOME/code/env/zsh_includes/global.zsh
+-fi
++# aliases
++[[ -f ~/.aliases ]] && source ~/.aliases
+ 
+-export PATH
++# Local config
++[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
